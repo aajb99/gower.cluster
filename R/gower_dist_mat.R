@@ -1,4 +1,4 @@
-#' Gowers Distance Matrix
+#' Gower_Cluster
 #'
 #' @param data.x n x p dataframe object (allows for mixed data types) or a matrix object (single data type)
 #' @param var.type.vec p x 1 vector with elements indicating the data type of each variable of X
