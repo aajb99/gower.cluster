@@ -30,7 +30,7 @@ Var_Type_Check <- function(var.type.vec){
   # Check object type
   if(!(is.vector(var.type.vec))){
 
-    stop(paste("var.type.vec input must a vector object. Readjust."))
+    stop(paste("var.type.vec input must be a vector object. Readjust."))
 
   }
 
@@ -50,7 +50,31 @@ Var_Type_Check <- function(var.type.vec){
 
 }
 
+#' Var_Weight_Check
+#'
+#' @param var.weight.vec
+#'
+#' @return Returns an error message if var.weight.vec does not follow one or more of the requirements mentioned below.
+#'
+#' @keywords internal
+#'
+Var_Weight_Check <- function(var.weight.vec){
 
+  # Check object type
+  if(!(is.vector(var.weight.vec))){
+
+    stop(paste("var.weight.vec input must be a vector object. Readjust."))
+
+  }
+
+  # Check Dimensions compatible with X
+  if(length(var.weight.vec) != ncol(X)){
+
+    stop(paste("Length of var.weight.vec vector does not match the number of columns of data.x. Check and readjust."))
+
+  }
+
+}
 
 
 
