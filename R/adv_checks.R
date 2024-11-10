@@ -17,6 +17,40 @@ Gower_Mat_Check <- function(X){
 
 }
 
+#' Var_Type_Check
+#'
+#' @param var.type.vec
+#'
+#' @return Returns an error message if var.type.vec does not follow one or more of the requirements mentioned below.
+#'
+#' @keywords internal
+#'
+Var_Type_Check <- function(var.type.vec){
+
+  # Check object type
+  if(!(is.vector(var.type.vec))){
+
+    stop(paste("var.type.vec input must a vector object. Readjust."))
+
+  }
+
+  # Check Dimensions compatible with X
+  if(length(var.type.vec) != ncol(X)){
+
+    stop(paste("Length of var.type.vec vector does not match the number of columns of data.x. Check and readjust."))
+
+  }
+
+  # Check vector only contains 0, 1, 2, and/or 3
+  if(!all(var.type.vec %in% c(0, 1, 2, 3))){
+
+    stop(paste("Not all elements of var.type.vec vector are 0, 1, 2, or 3. Check and readjust."))
+
+  }
+
+}
+
+
 
 
 
