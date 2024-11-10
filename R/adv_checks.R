@@ -74,22 +74,33 @@ Var_Weight_Check <- function(var.weight.vec){
 
   }
 
+  # Check is numeric vector
+  if(!all(is.numeric(var.weight.vec))){
+
+    stop(paste("var.weight.vec vector must have all numeric inputs. Check and readjust."))
+
+  }
+
 }
 
+#' Dend_Check
+#'
+#' @param dend
+#'
+#' @return Returns an error message if dend is not a logical type object.
+#'
+#' @keywords internal
+#'
+Dend_Check <- function(dend){
 
+  # Check object type
+  if(!is.logical(dend)){
 
+    stop(paste("dend input is not a logical type object. Readjust."))
 
+  }
 
-
-
-
-
-
-
-
-
-
-
+}
 
 
 

@@ -42,7 +42,17 @@ ncol(df_test1_main)
 v_test1 <- as.vector(c(0, 1, 2, 3, 2, 4))
 !all(v_test1 %in% c(0, 1, 2, 3))
 
+# Var Weight Check #
+v_weight_testbad <- as.vector(c(1, 2, 3, 4, 'a'))
+v_weight_testgood <- as.vector(c(1, 2, 3, 4))
+is.vector(v_weight_testbad)
+all(is.numeric(v_weight_testbad))
+is.vector(v_weight_testgood)
+all(is.numeric(v_weight_testgood))
 
+# Dend type check #
+dend_test1 <- TRUE
+!is.logical(dend_test1)
 
 
 

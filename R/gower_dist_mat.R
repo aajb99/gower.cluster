@@ -21,14 +21,21 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
 
   X <- data.x
 
-  # Adversarial Checks #
+  # Adversarial Checks:
+  ###
   # Check 1: X is object type matrix/df
   Gower_Mat_Check(X)
   # Check 2: var.type.vec compatibility checks
   Var_Type_Check(var.type.vec)
   # Check 3: var.weight.vec compatibility checks
+  Var_Weight_Check(var.weight.vec)
+  # Check 4: dend is logical type object
+  Dend_Check(dend)
 
 
+
+
+  ###
   return(gower.mat)
 }
 
