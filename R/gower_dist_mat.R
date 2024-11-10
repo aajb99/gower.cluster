@@ -32,6 +32,11 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
   # Check 4: dend is logical type object
   Dend_Check(dend)
 
+  # Var Type Vec Implementation:
+  ###
+  # Apply var.type.vec to adjust feature types
+
+
 
 
 

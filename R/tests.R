@@ -54,16 +54,61 @@ all(is.numeric(v_weight_testgood))
 dend_test1 <- TRUE
 !is.logical(dend_test1)
 
+###
+
+############################
+# Adjust Features Funciton #
+############################
+
+v_type_test1 <- c(0, 1, 2, 3, 0, 1, 2, 3)
+v_type_test2 <- c(0, 1, 0, 1)
+mat_test1 <- matrix(c(.5, .3, .4, .9,
+                      1, 3, 2, 5,
+                      .4, .6, .2, .8,
+                      7, 3, 5, 1),
+                    nrow = 4, byrow = FALSE)
+df_test1 <- as.data.frame(mat_test1)
+# Test other feature types:
+v_type_test2 <- c(0, 1, 2, 3)
+mat_test1 <- matrix(c(.5, .3, .4, .9,
+                      1, 3, 2, 5,
+                      1, 3, 2, 3,
+                      0, 1, 0, 1),
+                    nrow = 4, byrow = FALSE)
+df_test1 <- as.data.frame(mat_test1)
+
+for (i in 0:3){
+
+  indices <- which(v_type_test2 == i)
+
+  if(length(indices) > 0){
+
+    # Adjust features at indices based on i:
+    if(i == 0){
+
+      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.numeric))
+
+    } else if(i == 1){
+
+      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.factor))
+
+    } else if(i == 2){
+
+      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.ordered))
+
+    } else{
+
+      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.logical))
+
+    }
+
+  }
+
+}
 
 
-
-
-
-
-
-
-
-
+class(df_test1$V3)
+is.ordered(df_test1$V2)
 
 
 
