@@ -1,7 +1,21 @@
-Tentative package name: gower.cluster
+### Package: gower.cluster
 
-Tentative package title: An Implementation of Gower Distance in Exploratory Cluster Analysis.
+### Title: An Implementation of Gower Distance in Exploratory Cluster Analysis
 
-Content/Background: For mixed variable data, i.e. when variables of different types (categorical vs. continuous) are observed in a study, a rigorous representation of the dissimilarity between observations via distance measures is somewhat tedious. To accomodate this challenge of measuring the dissimilarities observed in mixed variable data, the Gower Distance was developed (1). The Gower Distance utilizes the collection of mixed variables to compute an overall distance by manipulating a weighted sum of the variable-wise distances dijk, where i, j are observed points and k denotes a particular variable. The weights used are manipulated to represent each dijk in its needed form; as a logical, categorical (character), or continuous (numeric) related distance (2). While these distance measures prove useful in contrasting mixed variable data points, a compelling extension of Gower Distance is to implement it in clustering analysis involving mixed variable data. More specifically, a helpful development would be to design an R package that computes pairwise Gower Distances between points, which are then incorporated in a tool for exploratory cluster analysis to analyze the possible clusterings of observations of mixed variable data.
+#### Intended Use: 
+Intended use of this package is to provide relatively simple operations to prepare data frame objects of mixed variable data for Gower Distance computations, output pairwise Gower Distances between observations, and provide certain exploratory cluster analysis tools to explore potential clusterings of the mixed variable type data. The user must first input mixed variable data in the form of a data frame or, if all numeric data, a matrix is also an option. Other inputs/options: var.type.vec is a vector with elements indicating each variable type in the data frame/matrix object; var.weight.vec (optional) is a vector with elements indicating variable weights applied in Gower Distance calculations, in case the user prefers varying levels of "contribution" from the variables in computing Gower Distances (see details of gower.dist() from gower package for more information); dend (optional) is a boolean input, "TRUE" indicating dendrogram plot is a desired output, "FALSE" otherwise. For more information on Gower Distance and its use cases, refer to details of gower.dist() from gower package; for more information regarding the inputs previously mentioned, refer to details of Gower_Cluster() from this package (currently found in R/gower_dist_mat.R).
 
-Intended Functionality: Regarding the R package itself, the intended use is to first input mixed variable data in the form of a data frame or matrix, while also inputting both a variable type list with corresponding elements indicating the type of each variable (see sources for details on how gower.dist treats inputs) and the corresponding variable weights denoting variable significance (2, 3). Given these inputs, I will then incorporate a function to manipulate the main data object to follow the specifications of the user (adjust variable types, etc.) and run adversarial checks on the inputs. Then, I will implement the gower.dist function to produce a pairwise distance matrix (note that only one matrix object will be input to gower.dist, 2) corresponding to observations in the main dataset. The resulting distance matrix will then be (optionally) applied to several plotting functions (including dendrograms and at least one other exploratory tool—possibly Silhouette Score plots) which will provide an output to the user (hence, another input will be provided to determine desired outputs). Time permitting, I will implement additional output options to further enhance the capabilities of my package in providing informative exploratory cluster analysis tools for mixed variable datasets.
+#### Installation Instructions: 
+The gower.cluster R package can be installed from GitHub directly using the following code: devtools::install_github("aajb99/gower.cluster").
+The (public) repository can be found here: https://github.com/aajb99/gower.cluster/tree/main.
+
+#### Remaining Parts of the Project:
+The parts of my project left for the remainder of the semester include the following: most components of the function to adjust features of the data frame input object (in adjust_features.R) have been written and tested, yet I still have to determine how to adjust for features of ordered factor type specifically. Also, the function to compute the Gower
+Distance matrix output as well as the function to configure the dendrogram based on Gower Distances need to be written, tested, and added to gower_dist_mat.R. Lastly, if time permits,
+I need to implement another optional exploratory cluster analysis tool for the user.
+
+
+
+
+
+
