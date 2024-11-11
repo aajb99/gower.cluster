@@ -94,7 +94,7 @@ for (i in 0:3){
 
     } else if(i == 2){
 
-      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.ordered))
+      df_test1[, indices] <- as.ordered(unlist(lapply(df_test1[, indices], function(x) factor(x, ordered = TRUE, levels = c(1, 2, 3)))))
 
     } else{
 
@@ -107,7 +107,8 @@ for (i in 0:3){
 }
 
 
-class(df_test1$V3)
+class(df_test1$V2)
+is.ordered(df_test1$V2)
 is.ordered(df_test1$V2)
 
 
