@@ -69,13 +69,17 @@ mat_test1 <- matrix(c(.5, .3, .4, .9,
                     nrow = 4, byrow = FALSE)
 df_test1 <- as.data.frame(mat_test1)
 # Test other feature types:
-v_type_test2 <- c(0, 1, 2, 3)
+v_type_test2 <- c(0, 2, 2, 3, 2, 0, 0)
+# v_type_test2 <- c(3, 3, 3, 3, 3)
 mat_test1 <- matrix(c(.5, .3, .4, .9,
                       1, 3, 2, 5,
                       1, 3, 2, 3,
                       0, 1, 0, 1),
                     nrow = 4, byrow = FALSE)
 df_test1 <- as.data.frame(mat_test1)
+V5 <- c('low', 'medium', 'high', 'medium')
+df_test1 <- cbind(df_test1, V5)
+v_type_test2_order_level_list <- list(c(1, 2, 3, 5), c(1, 2, 3), c('low', 'medium', 'high'))
 
 for (i in 0:3){
 
@@ -84,21 +88,59 @@ for (i in 0:3){
   if(length(indices) > 0){
 
     # Adjust features at indices based on i:
+    # If indices correspond to numeric features:
     if(i == 0){
 
-      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.numeric))
+      # Assign to numeric feature type
+      df_test1[, indices] <- sapply(df_test1[, indices], as.numeric)
+      # df_test1[, indices] <- lapply(df_test1[, indices], function(x) as.vector(as.numeric(x)))
+      # df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.numeric))
 
-    } else if(i == 1){
+    }
+    # If indices correspond to unordered (default) cat features:
+    else if(i == 1){
 
-      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.factor))
+      # Assign to cat feature type
+      df_test1[, indices] <- sapply(df_test1[, indices], as.factor)
+      # df_test1[, indices] <- lapply(df_test1[, indices], function(x) as.vector(as.factor(x)))
+      # df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.factor))
 
-    } else if(i == 2){
+    }
+    # If indices correspond to ordered cat features:
+    else if(i == 2){
 
-      df_test1[, indices] <- as.ordered(unlist(lapply(df_test1[, indices], function(x) factor(x, ordered = TRUE, levels = c(1, 2, 3)))))
+      # CHECK: dimension of ordered.cat.levels.vec matches dimension of indices, also indices exist in data frame object
+      if (!(length(indices) == length(v_type_test2_order_level_list))){
 
-    } else{
+        stop(paste("Dimension of ordered.cat.levels.vec and number of ordered categorical features specified in var.type.vec are unequal. Check and readjust."))
 
-      df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.logical))
+      }
+
+      # Iterate through user-specified level orderings
+      for (j in 1:length(indices)){
+
+        # Assign to ordered cat feature type
+        df_test1[, indices[j]] <- factor(df_test1[, indices[j]], ordered = TRUE, levels = v_type_test2_order_level_list[[j]])
+
+      }
+
+      # Previous attempts to adjust features to ordered factor type
+      # df_test1[, indices] <- as.ordered(unlist(lapply(df_test1[, indices], function(x) factor(x, ordered = TRUE, levels = c(1, 2, 3)))))
+      # df_test1[, indices[j]] <- as.ordered(unlist(lapply(df_test1[, indices[j]], function(x) factor(x, ordered = TRUE, levels = v_type_test2_order_level_list[j]))))
+
+    }
+    # If indices correspond to logical features:
+    else{
+
+      # Factorize subset for checks
+      factorized_subset <- sapply(df_test1[, indices], function(col) if(is.numeric(col)) as.factor(col) else NA)
+      # CHECK: Do columns have multiple levels (if so, give warning)
+      sapply(factorized_subset, function(col) if(!(nlevels(col) == 1 | nlevels(col) == 2)) warning('Certain features assigned to logical category do not have 1 or 2 levels. Labeling will be applied inconsistently across levels.'))
+
+      # Assign to logical feature type
+      df_test1[, indices] <- sapply(df_test1[, indices], as.logical)
+      # df_test1[, indices] <- lapply(df_test1[, indices], function(x) as.vector(as.logical(x)))
+      # df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.logical))
 
     }
 
@@ -107,12 +149,12 @@ for (i in 0:3){
 }
 
 
-class(df_test1$V2)
+class(df_test1$V4)
+is.factor(df_test1$V1)
 is.ordered(df_test1$V2)
-is.ordered(df_test1$V2)
 
-
-
+library(StatMatch)
+gower.dist(df_test1[, -5])
 
 
 

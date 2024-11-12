@@ -1,9 +1,10 @@
 #' Gower_Cluster
 #'
 #' @param data.x n x p dataframe object (allows for mixed data types) or a matrix object (single data type).
-#' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as categorical ordinal variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
+#' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
 #' @param var.weight.vec (Optional) p x 1 vector with elements indicating variable weights applied in Gower's Distance calculations. User can specify different weights for different variables by providing a numeric value for each variable contributing to the distance. Length should equal the number of variables considered in calculating distance. Entered weights are scaled to sum up to 1.
 #' @param dend (Optional) boolean input, "TRUE" indicating dendrogram plot is a desired output, "FALSE" otherwise.
+#' @param ordered.cat.levels.vec (Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.
 #'
 #' @return A matrix
 #' \item{gower.mat}{ n x n matrix representing the pairwise Gower's Distances between observations of data.x }
@@ -13,11 +14,13 @@
 #' @examples
 #'
 #' ##### Example 1
+#' (in progress)
 #'
 #' #####################
 #' ##### Example 2
+#' (in progress)
 #'
-Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FALSE){
+Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FALSE, ordered.cat.levels.vec = NULL){
 
   X <- data.x
 
