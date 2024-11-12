@@ -22,6 +22,7 @@
 #'
 Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FALSE, ordered.cat.levels.vec = NULL){
 
+  # Rename data.x object
   X <- data.x
 
   # Adversarial Checks:
@@ -37,9 +38,9 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
 
   # Var Type Vec Implementation:
   ###
-  # Apply var.type.vec to adjust feature types
+  # Apply var.type.vec to adjust feature types:
 
-
+  # (in progress)
 
 
 

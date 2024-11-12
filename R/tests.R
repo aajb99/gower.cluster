@@ -57,18 +57,19 @@ dend_test1 <- TRUE
 ###
 
 ############################
-# Adjust Features Funciton #
+# Adjust Features Function #
 ############################
 
-v_type_test1 <- c(0, 1, 2, 3, 0, 1, 2, 3)
-v_type_test2 <- c(0, 1, 0, 1)
+# First round of feature types testing (inputs):
+v_type_test1 <- c(0, 1, 0, 1)
 mat_test1 <- matrix(c(.5, .3, .4, .9,
                       1, 3, 2, 5,
                       .4, .6, .2, .8,
                       7, 3, 5, 1),
                     nrow = 4, byrow = FALSE)
 df_test1 <- as.data.frame(mat_test1)
-# Test other feature types:
+
+# Test other feature types (inputs):
 v_type_test2 <- c(0, 2, 2, 3, 2, 0, 0)
 # v_type_test2 <- c(3, 3, 3, 3, 3)
 mat_test1 <- matrix(c(.5, .3, .4, .9,
@@ -81,6 +82,9 @@ V5 <- c('low', 'medium', 'high', 'medium')
 df_test1 <- cbind(df_test1, V5)
 v_type_test2_order_level_list <- list(c(1, 2, 3, 5), c(1, 2, 3), c('low', 'medium', 'high'))
 
+###
+
+# Main loop in Adjust Features Function:
 for (i in 0:3){
 
   indices <- which(v_type_test2 == i)
@@ -147,17 +151,6 @@ for (i in 0:3){
   }
 
 }
-
-
-class(df_test1$V4)
-is.factor(df_test1$V1)
-is.ordered(df_test1$V2)
-
-library(StatMatch)
-gower.dist(df_test1[, -5])
-
-
-
 
 
 
