@@ -4,15 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Aaron", "Brown", , "aaron.jacob.brown@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-0853-1099"))
-Description: Input mixed variable data in the form of a data frame or, if all numeric data, a matrix. Other inputs: 
-var.type.vec is a vector with elements indicating each variable type in the data frame/matrix object; 
-var.weight.vec (optional) is a vector with elements indicating variable weights applied in Gower Distance 
-calculations (see details of gower.dist() from gower package for more information); dend (optional) is a boolean 
-input, "TRUE" indicating dendrogram plot is a desired output, "FALSE" otherwise. For more information on inputs, 
-see details of Gower_Cluster() from this package. Intended use of this package is to provide relatively simple 
-operations to prepare data frame objects of mixed variable data for Gower Distance computations, output pairwise 
-Gower Distances between observations, and provide certain exploratory cluster analysis tools to explore potential 
-clusterings of the mixed variable type data.
+Description: Input mixed variable data in the form of a data frame or, if all numeric data, a matrix. Other inputs: var.type.vec is a vector with elements indicating each variable type in the data frame/matrix object; var.weight.vec (optional) is a vector with elements indicating variable weights applied in Gower Distance calculations (see details of gower.dist() from gower package for more information); dend (optional) is a boolean input, "TRUE" indicating dendrogram plot is a desired output, "FALSE" otherwise. For more information on inputs, see details of Gower_Cluster() from this package. Intended use of this package is to provide relatively simple operations to prepare data frame objects of mixed variable data for Gower Distance computations, output pairwise Gower Distances between observations, and provide certain exploratory cluster analysis tools to explore potential clusterings of the mixed variable type data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
