@@ -21,20 +21,28 @@ Adjust_Feature_Type <- function(X, var.type.vec, ordered.cat.levels.vec){
       if(i == 0){
 
         # Assign to numeric feature type
-        X[, indices] <- sapply(X[, indices], as.numeric)
+        for (index in indices){
+
+          X[, index] <- as.numeric(X[, index])
+
+        }
 
       }
       # If indices correspond to unordered (default) cat features:
       else if(i == 1){
 
         # Assign to cat feature type
-        X[, indices] <- sapply(X[, indices], as.factor)
+        for (index in indices){
+
+          X[, index] <- as.factor(X[, index])
+
+        }
 
       }
       # If indices correspond to ordered cat features:
       else if(i == 2){
 
-        # CHECK: dimension of ordered.cat.levels.vec matches dimension of indices
+        # CHECK: dimension of ordered.cat.levels.vec matches dimension of indices, also indices exist in data frame object
         if (!(length(indices) == length(ordered.cat.levels.vec))){
 
           stop(paste("Dimension of ordered.cat.levels.vec and number of ordered categorical features specified in var.type.vec are unequal. Check and readjust."))
@@ -48,9 +56,10 @@ Adjust_Feature_Type <- function(X, var.type.vec, ordered.cat.levels.vec){
           X[, indices[j]] <- factor(X[, indices[j]], ordered = TRUE, levels = ordered.cat.levels.vec[[j]])
 
         }
+
       }
       # If indices correspond to logical features:
-      else{
+      else if(i == 3){
 
         # Factorize subset for checks
         factorized_subset <- sapply(X[, indices], function(col) if(is.numeric(col)) as.factor(col) else NA)
@@ -58,9 +67,16 @@ Adjust_Feature_Type <- function(X, var.type.vec, ordered.cat.levels.vec){
         sapply(factorized_subset, function(col) if(!(nlevels(col) == 1 | nlevels(col) == 2)) warning('Certain features assigned to logical category do not have 1 or 2 levels. Labeling will be applied inconsistently across levels.'))
 
         # Assign to logical feature type
-        X[, indices] <- sapply(X[, indices], as.logical)
+        for (index in indices){
+
+          X[, index] <- as.logical(X[, index])
+
+        }
+
       }
+
     }
+
   }
 
   return(X)

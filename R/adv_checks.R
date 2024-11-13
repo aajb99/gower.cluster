@@ -19,13 +19,14 @@ Gower_Mat_Check <- function(X){
 
 #' Var_Type_Check
 #'
-#' @param var.type.vec
+#' @param X n x p dataframe object (allows for mixed data types) or a matrix object (single data type)
+#' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
 #'
 #' @return Returns an error message if var.type.vec does not follow one or more of the requirements mentioned below.
 #'
 #' @keywords internal
 #'
-Var_Type_Check <- function(var.type.vec){
+Var_Type_Check <- function(X, var.type.vec){
 
   # Check object type
   if(!(is.vector(var.type.vec))){
@@ -52,32 +53,37 @@ Var_Type_Check <- function(var.type.vec){
 
 #' Var_Weight_Check
 #'
-#' @param var.weight.vec
+#' @param X n x p dataframe object (allows for mixed data types) or a matrix object (single data type)
+#' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
 #'
 #' @return Returns an error message if var.weight.vec does not follow one or more of the requirements mentioned below.
 #'
 #' @keywords internal
 #'
-Var_Weight_Check <- function(var.weight.vec){
+Var_Weight_Check <- function(X, var.weight.vec){
 
-  # Check object type
-  if(!(is.vector(var.weight.vec))){
+  if(!is.null(var.weight.vec)){
 
-    stop(paste("var.weight.vec input must be a vector object. Readjust."))
+    # Check object type
+    if(!is.vector(var.weight.vec)){
 
-  }
+      stop(paste("var.weight.vec input must be a vector object. Readjust."))
 
-  # Check Dimensions compatible with X
-  if(length(var.weight.vec) != ncol(X)){
+    }
 
-    stop(paste("Length of var.weight.vec vector does not match the number of columns of data.x. Check and readjust."))
+    # Check Dimensions compatible with X
+    if(length(var.weight.vec) != ncol(X)){
 
-  }
+      stop(paste("Length of var.weight.vec vector does not match the number of columns of data.x. Check and readjust."))
 
-  # Check is numeric vector
-  if(!all(is.numeric(var.weight.vec))){
+    }
 
-    stop(paste("var.weight.vec vector must have all numeric inputs. Check and readjust."))
+    # Check is numeric vector
+    if(!all(is.numeric(var.weight.vec))){
+
+      stop(paste("var.weight.vec vector must have all numeric inputs. Check and readjust."))
+
+    }
 
   }
 

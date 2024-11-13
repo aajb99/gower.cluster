@@ -70,8 +70,8 @@ mat_test1 <- matrix(c(.5, .3, .4, .9,
 df_test1 <- as.data.frame(mat_test1)
 
 # Test other feature types (inputs):
-v_type_test2 <- c(0, 2, 2, 3, 2, 0, 0)
-# v_type_test2 <- c(3, 3, 3, 3, 3)
+# v_type_test2 <- c(0, 2, 2, 3, 2)
+v_type_test2 <- c(0, 1, 2, 3)
 mat_test1 <- matrix(c(.5, .3, .4, .9,
                       1, 3, 2, 5,
                       1, 3, 2, 3,
@@ -81,6 +81,12 @@ df_test1 <- as.data.frame(mat_test1)
 V5 <- c('low', 'medium', 'high', 'medium')
 df_test1 <- cbind(df_test1, V5)
 v_type_test2_order_level_list <- list(c(1, 2, 3, 5), c(1, 2, 3), c('low', 'medium', 'high'))
+v_type_test2_order_level_list <- list(c(1, 2, 3))
+
+# Test imported data:
+df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
+df_test1 <- df_main
+v_type_test2 <- c(1, 0, 0, 1, 1, 1)
 
 ###
 
@@ -96,7 +102,15 @@ for (i in 0:3){
     if(i == 0){
 
       # Assign to numeric feature type
-      df_test1[, indices] <- sapply(df_test1[, indices], as.numeric)
+      for (index in indices){
+
+        df_test1[, index] <- as.numeric(df_test1[, index])
+
+      }
+
+      # Previous Attempts:
+      # df_test1[, indices] <- data.frame(lapply(df_test1[, indices], as.numeric))
+      # df_test1[, indices] <- sapply(df_test1[, indices], as.numeric)
       # df_test1[, indices] <- lapply(df_test1[, indices], function(x) as.vector(as.numeric(x)))
       # df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.numeric))
 
@@ -105,7 +119,15 @@ for (i in 0:3){
     else if(i == 1){
 
       # Assign to cat feature type
-      df_test1[, indices] <- sapply(df_test1[, indices], as.factor)
+      for (index in indices){
+
+        df_test1[, index] <- as.factor(df_test1[, index])
+
+      }
+
+      # Previous Attempts:
+      # df_test1[, indices] <- data.frame(lapply(df_test1[, indices], as.factor))
+      # df_test1[, indices] <- sapply(df_test1[, indices], as.factor)
       # df_test1[, indices] <- lapply(df_test1[, indices], function(x) as.vector(as.factor(x)))
       # df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.factor))
 
@@ -142,7 +164,15 @@ for (i in 0:3){
       sapply(factorized_subset, function(col) if(!(nlevels(col) == 1 | nlevels(col) == 2)) warning('Certain features assigned to logical category do not have 1 or 2 levels. Labeling will be applied inconsistently across levels.'))
 
       # Assign to logical feature type
-      df_test1[, indices] <- sapply(df_test1[, indices], as.logical)
+      for (index in indices){
+
+        df_test1[, index] <- as.logical(df_test1[, index])
+
+      }
+
+      # Previous Attempts:
+      # df_test1[, indices] <- data.frame(lapply(df_test1[, indices], as.logical))
+      # df_test1[, indices] <- sapply(df_test1[, indices], as.logical)
       # df_test1[, indices] <- lapply(df_test1[, indices], function(x) as.vector(as.logical(x)))
       # df_test1[, indices] <- unlist(lapply(df_test1[, indices], as.logical))
 
@@ -151,6 +181,39 @@ for (i in 0:3){
   }
 
 }
+
+# Test Actual Adjust Features Function:
+# Assign to logical feature type
+df_test_main <- Adjust_Feature_Type(df_test1, v_type_test2, v_type_test2_order_level_list)
+# Test imported data
+df_main <- as.data.frame(vroom('./Data/r_gowers_pre_df.csv', delim = ','))
+df_test_main2 <- Adjust_Feature_Type(df_main, c(1, 0, 0, 1, 1, 1))
+# Test matrix input
+df_test_main3 <- Adjust_Feature_Type(mat_test1, v_type_test2, v_type_test2_order_level_list)
+
+###
+
+#############
+# Gower_Mat #
+#############
+
+# Code added for gower.mat
+# Running Tests:
+
+# Test 1:
+# Import Data
+df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
+
+df_main <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
+
+
+
+
+
+
+
+
+
 
 
 
