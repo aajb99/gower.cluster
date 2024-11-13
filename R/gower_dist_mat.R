@@ -30,23 +30,32 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
   # Check 1: X is object type matrix/df
   Gower_Mat_Check(X)
   # Check 2: var.type.vec compatibility checks
-  Var_Type_Check(var.type.vec)
+  Var_Type_Check(X, var.type.vec)
   # Check 3: var.weight.vec compatibility checks
-  Var_Weight_Check(var.weight.vec)
+  Var_Weight_Check(X, var.weight.vec)
   # Check 4: dend is logical type object
   Dend_Check(dend)
 
   # Var Type Vec Implementation:
   ###
-  # Apply var.type.vec to adjust feature types:
+  # Apply var.type.vec/ordered.cat.levels.vec to adjust feature types:
+  X <- Adjust_Feature_Type(X, var.type.vec, ordered.cat.levels.vec)
 
-  # (in progress)
+  # Configure Gower Dist Mat:
+  ###
+  # Apply gower.dist from StatMatch package to X (var.weights included if specified by the user)
+  # gower.mat <- StatMatch::gower.dist(X, var.weights = var.weight.vec)
 
 
 
   ###
-  return(gower.mat)
+  return(X)
+  # return(gower.mat)
 }
+
+
+
+
 
 
 
