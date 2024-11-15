@@ -34,6 +34,8 @@ if(!(is.matrix(X_bad1) | is.data.frame(X_bad1))){
 } else {
   print('passed')
 }
+# Check matrix input
+Gower_Cluster(X_test1, c(0, 0))
 
 
 # Var Type Check #
@@ -159,7 +161,21 @@ for (i in 0:3){
     else{
 
       # Factorize subset for checks
-      factorized_subset <- sapply(df_test1[, indices], function(col) if(is.numeric(col)) as.factor(col) else NA)
+      # factorized_subset <- sapply(df_test1[, indices], function(col) if(is.numeric(col)) as.factor(col) else NA)
+      for (index in indices){
+
+        col <- df_test1[, index]
+
+        if(is.numeric(col)) {
+
+          df_test1[, index] <- as.factor(col)
+
+        }
+        else {
+          df_test1[, index] <- NA
+        }
+      }
+      factorized_subset <- df_test1[, indices]
       # CHECK: Do columns have multiple levels (if so, give warning)
       sapply(factorized_subset, function(col) if(!(nlevels(col) == 1 | nlevels(col) == 2)) warning('Certain features assigned to logical category do not have 1 or 2 levels. Labeling will be applied inconsistently across levels.'))
 
@@ -207,6 +223,18 @@ df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
 df_main <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 
 
+# Test 2:
+# Matrix input
+v_type_test_mat <- c(0, 0, 0, 0)
+v_type_test_mat <- c(0, 1, 1, 1)
+v_type_test_mat <- c(0, 1, 1, 3)
+v_type_test_mat <- c(0, 1, 3, 0)
+mat_test <- matrix(c(.5, .3, .4, .9,
+                      1, 3, 2, 5,
+                      1, 3, 2, 3,
+                      0, 1, 0, 1),
+                    nrow = 4, byrow = FALSE)
+Gower_Cluster(data.x = mat_test, var.type.vec = v_type_test_mat)
 
 
 

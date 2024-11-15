@@ -1,17 +1,28 @@
 #' Gower_Mat_Check
 #'
 #' @param X n x p dataframe object (allows for mixed data types) or a matrix object (single data type)
+#' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
 #'
 #' @return Returns an error message if X is not a matrix or data frame
 #'
 #' @keywords internal
 #'
-Gower_Mat_Check <- function(X){
+Gower_Mat_Check <- function(X, var.type.vec){
 
   # Check object type
   if(!(is.matrix(X) | is.data.frame(X))){
 
     stop(paste("data.x input must be a matrix or data frame object. Readjust."))
+
+  }
+  # If matrix, check if var.type.vec is all 0's. If not, return error
+  if(is.matrix(X)) {
+
+    if(!all(var.type.vec %in% c(0))){
+
+      stop(paste("data.x input is a matrix object, but not all features are specified as type 0 in var.type.vec. Readjust."))
+
+    }
 
   }
 
