@@ -219,6 +219,7 @@ source('./R/gower_dist_mat.R')
 # Code added for gower.mat
 # Running Tests:
 
+### Testing adjust_features.R called from gower_dist_mat.R ###
 # Test 1:
 # Import Data
 df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
@@ -246,6 +247,10 @@ Gower_Cluster(data.x = mat_test, var.type.vec = v_type_test_mat)
 df_test2_result <- Gower_Cluster(data.x = df_test2, var.type.vec = v_type_test_mat)
 # (for df with ordered cat feature)
 df_test2_result <- Gower_Cluster(data.x = df_test2, var.type.vec = v_type_test_mat, ordered.cat.levels.vec = ordered_levels)
+
+
+### Testing gower.mat output from gower_dist_mat.R main function ###
+Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 
 
 

@@ -44,12 +44,12 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
   # Configure Gower Dist Mat:
   ###
   # Apply gower.dist from StatMatch package to X (var.weights included if specified by the user)
-  # gower.mat <- StatMatch::gower.dist(X, var.weights = var.weight.vec)
+  gower.mat <- StatMatch::gower.dist(X, var.weights = var.weight.vec)
 
 
 
   ###
-  return(X)
+  return(gower.mat)
   # return(gower.mat)
 }
 
