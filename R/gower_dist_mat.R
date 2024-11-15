@@ -28,7 +28,7 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
   # Adversarial Checks:
   ###
   # Check 1: X is object type matrix/df
-  Gower_Mat_Check(X)
+  Gower_Mat_Check(X, var.type.vec)
   # Check 2: var.type.vec compatibility checks
   Var_Type_Check(X, var.type.vec)
   # Check 3: var.weight.vec compatibility checks

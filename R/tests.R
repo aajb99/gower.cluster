@@ -212,6 +212,9 @@ df_test_main3 <- Adjust_Feature_Type(mat_test1, v_type_test2, v_type_test2_order
 #############
 # Gower_Mat #
 #############
+source('./R/adv_checks.R')
+source('./R/adjust_features.R')
+source('./R/gower_dist_mat.R')
 
 # Code added for gower.mat
 # Running Tests:
@@ -226,17 +229,23 @@ df_main <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 # Test 2:
 # Matrix input
 v_type_test_mat <- c(0, 0, 0, 0)
-v_type_test_mat <- c(0, 1, 1, 1)
+### Ordered cat feature case:
+v_type_test_mat <- c(0, 1, 2, 3)
+ordered_levels <- list(c(1, 2, 3))
+#############################
 v_type_test_mat <- c(0, 1, 1, 3)
-v_type_test_mat <- c(0, 1, 3, 0)
+v_type_test_mat <- c(0, 3, 3, 3)
 mat_test <- matrix(c(.5, .3, .4, .9,
                       1, 3, 2, 5,
                       1, 3, 2, 3,
                       0, 1, 0, 1),
                     nrow = 4, byrow = FALSE)
+df_test2 <- as.data.frame(mat_test)
+
 Gower_Cluster(data.x = mat_test, var.type.vec = v_type_test_mat)
-
-
+df_test2_result <- Gower_Cluster(data.x = df_test2, var.type.vec = v_type_test_mat)
+# (for df with ordered cat feature)
+df_test2_result <- Gower_Cluster(data.x = df_test2, var.type.vec = v_type_test_mat, ordered.cat.levels.vec = ordered_levels)
 
 
 

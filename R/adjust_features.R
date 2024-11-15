@@ -10,6 +10,10 @@
 #'
 Adjust_Feature_Type <- function(X, var.type.vec, ordered.cat.levels.vec){
 
+  # Extra measure to ensure columns are vector types (critical in variable type adjustment)
+  X <- as.data.frame(X)
+
+  # Iterate through var.type.vec entries and adjust column features accordingly:
   for (i in 0:3){
 
     indices <- which(var.type.vec == i)
@@ -61,14 +65,17 @@ Adjust_Feature_Type <- function(X, var.type.vec, ordered.cat.levels.vec){
       # If indices correspond to logical features:
       else if(i == 3){
 
-        # Factorize subset for checks
-        factorized_subset <- sapply(X[, indices], function(col) if(is.numeric(col)) as.factor(col) else NA)
-        # CHECK: Do columns have multiple levels (if so, give warning)
-        sapply(factorized_subset, function(col) if(!(nlevels(col) == 1 | nlevels(col) == 2)) warning('Certain features assigned to logical category do not have 1 or 2 levels. Labeling will be applied inconsistently across levels.'))
-
-        # Assign to logical feature type
         for (index in indices){
 
+          # CHECK: Do columns have multiple levels? (If so, give warning)
+          col_levels <- unique(X[, index])
+          if (!(length(col_levels) == 1 | length(col_levels) == 2)) {
+
+            warning('Feature assigned to logical category does not have 1 or 2 levels. Labeling will be applied inconsistently across levels.')
+
+          }
+
+          # Assign to logical feature type
           X[, index] <- as.logical(X[, index])
 
         }
