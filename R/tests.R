@@ -224,7 +224,7 @@ source('./R/gower_dist_mat.R')
 # Import Data
 df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
 
-df_main <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
+dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 
 
 # Test 2:
@@ -253,9 +253,23 @@ df_test2_result <- Gower_Cluster(data.x = df_test2, var.type.vec = v_type_test_m
 Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 
 
+###
 
+####################
+# Dendrogram Tests #
+####################
 
+# hclust(matrix(c(1, 2, 3, 4), nrow = 2))
+# is.matrix(df_main)
+# hclust(dist_mat, method = 'complete')
 
+# Using dist_mat as input
+dist_mat
+dim(as.dist(dist_mat))
+# Convert to dist object, run clustering
+hclust(as.dist(dist_mat), method = 'complete')
+# Plot HC cluster object as dendrogram
+plot(as.dendrogram(hclust(as.dist(dist_mat), method = 'complete')))
 
 
 

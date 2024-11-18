@@ -46,6 +46,9 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
   # Apply gower.dist from StatMatch package to X (var.weights included if specified by the user)
   gower.mat <- StatMatch::gower.dist(X, var.weights = var.weight.vec)
 
+  # Configure Dendrogram Object(s):
+  ###
+  #
 
 
   ###
