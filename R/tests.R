@@ -264,12 +264,27 @@ Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 # hclust(dist_mat, method = 'complete')
 
 # Using dist_mat as input
-dist_mat
+dist_mat # From Gower_Mat Test 1
 dim(as.dist(dist_mat))
 # Convert to dist object, run clustering
 hclust(as.dist(dist_mat), method = 'complete')
 # Plot HC cluster object as dendrogram
 plot(as.dendrogram(hclust(as.dist(dist_mat), method = 'complete')))
+
+
+# Test simple dataset:
+simple_df <- as.data.frame(matrix(c(.1, .5, .2, .8, 2, 7, 3, 6, 0, 1, 1, 1, 5, 2, 2, 1), nrow = 4))
+simple_dist_mat <- Gower_Cluster(data.x = simple_df, var.type.vec = c(0, 1, 3, 1))
+# Convert to dist object, run clustering
+hclust(as.dist(simple_dist_mat), method = 'complete')
+# Plot HC cluster object as dendrogram
+plot(as.dendrogram(hclust(as.dist(simple_dist_mat), method = 'complete')))
+
+
+
+
+
+
 
 
 
