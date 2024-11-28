@@ -276,10 +276,10 @@ plot(as.dendrogram(hclust(as.dist(dist_mat), method = 'complete')))
 hclust_obj_size
 library(dendextend)
 dend_obj <- as.dendrogram(hclust_obj) %>%
-  set('labels_cex', 0.2170724)
+  set('labels_cex', .707)
 plot(dend_obj)
 
-3 / sqrt(10)
+10 / sqrt(900)
 
 # Test simple dataset:
 simple_df <- as.data.frame(matrix(c(.1, .5, .2, .8, 2, 7, 3, 6, 0, 1, 1, 1, 5, 2, 2, 1), nrow = 4))
@@ -290,8 +290,32 @@ hclust(as.dist(simple_dist_mat), method = 'complete')
 plot(as.dendrogram(hclust(as.dist(simple_dist_mat), method = 'complete')))
 # Alter label sizes:
 dend_obj_small <- as.dendrogram(hclust(as.dist(simple_dist_mat), method = 'complete')) %>%
-  set('labels_cex', 1.5)
+  set('labels_cex', 1.2)
 plot(dend_obj_small)
+
+# Test dataset n = 900:
+f1 <- sample(c(0, 1), size = 900, replace = TRUE, prob = c(.5, .5))
+f2 <- f1 + sample(rnorm(900))
+large_df <- as.data.frame(cbind(f1, f2))
+# Gower dist mat
+large_dist_mat <- Gower_Cluster(data.x = large_df, var.type.vec = c(3, 0))
+# hclust obj
+hclust_obj_large <- hclust(as.dist(large_dist_mat), method = 'complete')
+hclust_obj_large_size <- length(hclust_obj_large$order)
+# Plot HC cluster object as dendrogram
+library(dendextend)
+dend_obj_large <- as.dendrogram(hclust_obj_large) %>%
+  set('labels_cex', 10 / sqrt(hclust_obj_large_size)) # Alter label sizes:
+par(mar = c(4, 3, 3, 2))
+plot(dend_obj_large)
+
+
+
+
+
+
+
+
 
 
 
