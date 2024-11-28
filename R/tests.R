@@ -267,10 +267,19 @@ Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 dist_mat # From Gower_Mat Test 1
 dim(as.dist(dist_mat))
 # Convert to dist object, run clustering
-hclust(as.dist(dist_mat), method = 'complete')
+hclust_obj <- hclust(as.dist(dist_mat), method = 'complete')
+hclust_obj_size <- length(hclust_obj$order)
 # Plot HC cluster object as dendrogram
 plot(as.dendrogram(hclust(as.dist(dist_mat), method = 'complete')))
 
+# Alter label sizes:
+hclust_obj_size
+library(dendextend)
+dend_obj <- as.dendrogram(hclust_obj) %>%
+  set('labels_cex', 0.2170724)
+plot(dend_obj)
+
+3 / sqrt(10)
 
 # Test simple dataset:
 simple_df <- as.data.frame(matrix(c(.1, .5, .2, .8, 2, 7, 3, 6, 0, 1, 1, 1, 5, 2, 2, 1), nrow = 4))
@@ -279,8 +288,10 @@ simple_dist_mat <- Gower_Cluster(data.x = simple_df, var.type.vec = c(0, 1, 3, 1
 hclust(as.dist(simple_dist_mat), method = 'complete')
 # Plot HC cluster object as dendrogram
 plot(as.dendrogram(hclust(as.dist(simple_dist_mat), method = 'complete')))
-
-
+# Alter label sizes:
+dend_obj_small <- as.dendrogram(hclust(as.dist(simple_dist_mat), method = 'complete')) %>%
+  set('labels_cex', 1.5)
+plot(dend_obj_small)
 
 
 
