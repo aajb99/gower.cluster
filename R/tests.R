@@ -310,13 +310,25 @@ par(mar = c(4, 3, 3, 2))
 plot(dend_obj_large)
 
 
+###
+
+##########################
+# Silhouette Score Tests #
+##########################
+library(dendextend)
+library(cluster)
+silhouette_scores <- sapply(1:10, function(k) {
+  cluster_assignments <- cutree(hclust_obj_large, k = k)
+  # print(cluster_assignments)
+  mean(silhouette(cluster_assignments, as.dist(large_dist_mat))[, 3])
+})
+
+optimal_k <- which.max(silhouette_scores)
 
 
+cluster_assignments <- cutree(hclust_obj_large, k = 2)
 
-
-
-
-
+silhouette(cluster_assignments, dmatrix = large_dist_mat)
 
 
 
