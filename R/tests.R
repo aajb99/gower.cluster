@@ -317,18 +317,15 @@ plot(dend_obj_large)
 ##########################
 library(dendextend)
 library(cluster)
-silhouette_scores <- sapply(1:10, function(k) {
+silhouette_scores <- sapply(2:10, function(k) {
   cluster_assignments <- cutree(hclust_obj_large, k = k)
-  # print(cluster_assignments)
-  mean(silhouette(cluster_assignments, as.dist(large_dist_mat))[, 3])
+  mean(silhouette(cluster_assignments, dmatrix = large_dist_mat)[, 3])
 })
 
-optimal_k <- which.max(silhouette_scores)
+plot(2:(length(silhouette_scores) + 1), silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
 
 
-cluster_assignments <- cutree(hclust_obj_large, k = 2)
 
-silhouette(cluster_assignments, dmatrix = large_dist_mat)
 
 
 
