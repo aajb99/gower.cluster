@@ -304,8 +304,8 @@ hclust_obj_large <- hclust(as.dist(large_dist_mat), method = 'complete')
 hclust_obj_large_size <- length(hclust_obj_large$order)
 # Plot HC cluster object as dendrogram
 library(dendextend)
-dend_obj_large <- as.dendrogram(hclust_obj_large) %>%
-  set('labels_cex', 10 / sqrt(hclust_obj_large_size)) # Alter label sizes:
+dend_obj_large <- as.dendrogram(hclust_obj_large) |>
+  set('labels_cex', 10 / sqrt(hclust_obj_large_size)) # Alter label sizes
 par(mar = c(4, 3, 3, 2))
 plot(dend_obj_large)
 
