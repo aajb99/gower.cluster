@@ -46,9 +46,11 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
   # Apply gower.dist from StatMatch package to X (var.weights included if specified by the user)
   gower.mat <- StatMatch::gower.dist(X, var.weights = var.weight.vec)
 
-  # Configure Dendrogram Object (Optional):
+  # Configure Dendrogram/Silhouette Objects (Optional):
   ###
   if (dend == TRUE){
+
+    # Dendrogram:
 
     # Initialize Hierarchical Clustering Object:
     hclust_obj <- hclust(as.dist(gower.mat), method = hclust_method) ### NEED TO CREATE hclust_method input
@@ -69,7 +71,17 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, dend = FA
 
     # Create dendrogram plot output
     par(mar = c(4, 3, 3, 2)) # Adjusted margins
-    dend_plot <- plot(dend_obj)
+    dend_plot <- plot(dend_obj, main = "Dendrogram")
+
+
+    # Silhouette Scores:
+
+    silhouette_scores <- sapply(silhouette_kmin:silhouette_kmax, function(k) {
+      cluster_assignments <- dendextend::cutree(hclust_obj, k = k)
+      mean(cluster::silhouette(cluster_assignments, dmatrix = gower.mat)[, 3]) # grab silhouette score column, compute avg
+    })
+
+    silhouette_plot <- plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
 
   }
 
