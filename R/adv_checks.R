@@ -100,20 +100,20 @@ Var_Weight_Check <- function(X, var.weight.vec){
 
 }
 
-#' Dend_Check
+#' Cluster_Vis_Check
 #'
-#' @param dend
+#' @param cluster.vis
 #'
-#' @return Returns an error message if dend is not a logical type object.
+#' @return Returns an error message if cluster.vis is not a logical type object.
 #'
 #' @keywords internal
 #'
-Dend_Check <- function(dend){
+Cluster_Vis_Check <- function(cluster.vis){
 
   # Check object type
-  if(!is.logical(dend)){
+  if(!is.logical(cluster.vis)){
 
-    stop(paste("dend input is not a logical type object. Readjust."))
+    stop(paste("cluster.vis input is not a logical type object. Readjust."))
 
   }
 
