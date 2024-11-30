@@ -119,5 +119,45 @@ Cluster_Vis_Check <- function(cluster.vis){
 
 }
 
+#' K_Range_Check
+#'
+#' @param silhouette_kmin
+#' @param silhouette_kmax
+#'
+#' @return Returns an error message if silhouette_kmin and/or silhouette_kmax are incompatible.
+#'
+#' @keywords internal
+#'
+K_Range_Check <- function(silhouette_kmin, silhouette_kmax){
+
+  # Check objects' data types
+  if(!(is.numeric(silhouette_kmin) & is.numeric(silhouette_kmax))){
+
+    stop(paste("Inputs silhouette_kmin and silhouette_kmax must both be numeric. Check and readjust."))
+
+  }
+  # Check values are integers
+  if(!((silhouette_kmin %% 1 == 0) & (silhouette_kmax %% 1 == 0))) {
+
+    stop(paste("Inputs silhouette_kmin and silhouette_kmax must both be integers. Check and readjust."))
+
+  }
+  # Check silhouette_kmin <= silhouette_kmax
+  if(!(silhouette_kmin <= silhouette_kmax)) {
+
+    stop(paste("Input silhouette_kmin must be less than or equal to silhouette_kmax. Check and readjust."))
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 

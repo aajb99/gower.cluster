@@ -22,7 +22,7 @@
 #' ##### Example 2
 #' (in progress)
 #'
-Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.vis = FALSE, ordered.cat.levels.vec = NULL){
+Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.vis = FALSE, silhouette_kmin = NULL, silhouette_kmax = NULL, ordered.cat.levels.vec = NULL){
 
   # Rename data.x object
   X <- data.x
@@ -51,6 +51,14 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.v
   # Configure Dendrogram/Silhouette Objects (Optional):
   ###
   if (cluster.vis == TRUE){
+
+    ###
+    # Adversarial checks on cluster.vis/silhouette_kmin/silhouette_kmax:
+    #   Check that silhouette_kmin and silhouette_kmax are specified correctly
+    #   Also, check that silhouette_kmin <= silhouette_kmax
+
+
+    ###
 
     # Dendrogram:
 
