@@ -5,8 +5,8 @@
 #' @param var.weight.vec (Optional) p x 1 vector with elements indicating variable weights applied in Gower's Distance calculations. User can specify different weights for different variables by providing a numeric value for each variable contributing to the distance. Length should equal the number of variables considered in calculating distance. Entered weights are scaled to sum up to 1.
 #' @param cluster.vis (Optional) boolean input, "TRUE" indicating dendrogram plot and silhouette plot are a desired output, "FALSE" otherwise.
 #' @param method (Optional) the agglomerative method to be used (in conjunction with cluster.vis). This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", or "centroid".
-#' @param silhouette_kmin (Optional) numeric input used in conjunction with cluster.vis. Indicates the minimum number of clusters k to be included in the silhouette plot.
-#' @param silhouette_kmax (Optional) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.
+#' @param silhouette.kmin (Optional) numeric input used in conjunction with cluster.vis. Indicates the minimum number of clusters k to be included in the silhouette plot.
+#' @param silhouette.kmax (Optional) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.
 #' @param ordered.cat.levels.vec (Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.
 #'
 #' @return A matrix
@@ -25,7 +25,7 @@
 #' (in progress)
 #'
 Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
-                          cluster.vis = FALSE, method = NULL, silhouette_kmin = NULL, silhouette_kmax = NULL, ordered.cat.levels.vec = NULL){
+                          cluster.vis = FALSE, method = NULL, silhouette.kmin = NULL, silhouette.kmax = NULL, ordered.cat.levels.vec = NULL){
 
   # Rename data.x object
   X <- data.x
@@ -67,10 +67,10 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     # Adversarial checks on method:
     #   Check that method is specified correctly
     Method_Check(method)
-    # Adversarial checks on cluster.vis/silhouette_kmin/silhouette_kmax:
-    #   Check that silhouette_kmin and silhouette_kmax are specified correctly
-    #   Also, check that silhouette_kmin <= silhouette_kmax
-    K_Range_Check(silhouette_kmin, silhouette_kmax)
+    # Adversarial checks on cluster.vis/silhouette.kmin/silhouette.kmax:
+    #   Check that silhouette.kmin and silhouette.kmax are specified correctly
+    #   Also, check that silhouette.kmin <= silhouette.kmax
+    K_Range_Check(silhouette.kmin, silhouette.kmax)
 
     ###
 
@@ -80,7 +80,7 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     hclust_obj <- hclust(as.dist(gower.mat), method = method)
     hclust_obj_size <- length(hclust_obj$order)
     # Initialize Dendrogram Object:
-    #   Conditionals on size of hclust_obj to adjust dendrogram label font size:
+    #   Conditionals on size of hclust_obj to adjust dendrogram label size:
     if (hclust_obj_size <= 200){
 
       dend_obj <- as.dendrogram(hclust_obj) |>
@@ -88,32 +88,23 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
 
     } else {
 
+      # Add null labels to dend_obj:
       dend_obj <- as.dendrogram(hclust_obj) |>
         dendextend::set('labels_cex', 8 / sqrt(hclust_obj_size)) # Alter label sizes based on hclust_obj_size
 
     }
 
-    # Create dendrogram plot output
-    # par(mar = c(4, 3, 3, 2)) # Adjusted margins
-    # dend.plot <- plot(dend_obj, main = "Dendrogram")
-
-
     # Silhouette Scores:
-
-    silhouette_scores <- sapply(silhouette_kmin:silhouette_kmax, function(k) {
+    silhouette_scores <- sapply(silhouette.kmin:silhouette.kmax, function(k) {
       cluster_assignments <- dendextend::cutree(hclust_obj, k = k)
       mean(cluster::silhouette(cluster_assignments, dmatrix = gower.mat)[, 3]) # grab silhouette score column, compute avg
     })
 
-    # silhouette.plot <- plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
-
     # If cluster.vis outputs are included (TRUE):
-    # return(list(gower.mat = gower.mat, dend.plot = dend.plot, silhouette.plot = silhouette.plot))
-
     output <- list(
       gower.mat = gower.mat,
       dend.plot = function() plot(dend_obj, main = "Dendrogram"),
-      silhouette.plot = function() plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
+      silhouette.plot = function() plot(silhouette.kmin:silhouette.kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
     )
 
     return(output)

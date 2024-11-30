@@ -333,6 +333,7 @@ source('./R/adv_checks.R')
 source('./R/adjust_features.R')
 source('./R/gower_dist_mat.R')
 
+### Test actual data ###
 # Check returning just gower.mat output:
 df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
 dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
@@ -341,13 +342,35 @@ dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), var.weight.vec = c(10, 5, 5, 5, 10, 5))
 
 # Check returning all outputs (cluster.vis = TRUE):
-out1 <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), cluster.vis = TRUE, method = 'centroid', silhouette_kmin = 4, silhouette_kmax = 6)
+out1 <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), cluster.vis = TRUE, method = 'single', silhouette.kmin = 2, silhouette.kmax = 10)
 
 out1$dend.plot()
 out1$silhouette.plot()
 
+### Test large data simulation ###
+# Create data
+f1 <- sample(c(0, 1), size = 900, replace = TRUE, prob = c(.5, .5))
+f2 <- f1 + sample(rnorm(900))
+large_df <- as.data.frame(cbind(f1, f2))
+# Function output
+out2 <- Gower_Cluster(data.x = large_df, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 15)
+
+out2$dend.plot()
+out2$silhouette.plot()
 
 
+
+
+
+
+# ### Test labeled index data ###
+# # Portion of actual data:
+# country_data_sim <- df_main[20:29,]
+# rownames(country_data_sim) <- c('Canada', 'Indonesia', 'United States', 'Guam', 'Mexico',
+#                                 'Spain', 'Democratic People\'s Republic of Korea', 'Peru', 'France', 'Germany')
+# out3 <- Gower_Cluster(data.x = country_data_sim, var.type.vec = c(1, 0, 0, 1, 1, 1), cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 6)
+# out3$dend.plot()
+# out3$silhouette.plot()
 
 
 
