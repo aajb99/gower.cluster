@@ -4,6 +4,7 @@
 #' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
 #' @param var.weight.vec (Optional) p x 1 vector with elements indicating variable weights applied in Gower's Distance calculations. User can specify different weights for different variables by providing a numeric value for each variable contributing to the distance. Length should equal the number of variables considered in calculating distance. Entered weights are scaled to sum up to 1.
 #' @param cluster.vis (Optional) boolean input, "TRUE" indicating dendrogram plot and silhouette plot are a desired output, "FALSE" otherwise.
+#' @param method (Optional) the agglomerative method to be used (in conjunction with cluster.vis). This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", or "centroid".
 #' @param silhouette_kmin (Optional) numeric input used in conjunction with cluster.vis. Indicates the minimum number of clusters k to be included in the silhouette plot.
 #' @param silhouette_kmax (Optional) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.
 #' @param ordered.cat.levels.vec (Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.
@@ -11,6 +12,7 @@
 #' @return A matrix
 #' \item{gower.mat}{ n x n matrix representing the pairwise Gower's Distances between observations of data.x }
 #' \item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower's Distances }
+#' \item{silhouette.plot}{ (Optional) silhouette plot to indicate optimal k values, or number of clusters, involving Gower's Distance Matrix of data.x }
 #' @export
 #'
 #' @examples
@@ -22,10 +24,13 @@
 #' ##### Example 2
 #' (in progress)
 #'
-Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.vis = FALSE, silhouette_kmin = NULL, silhouette_kmax = NULL, ordered.cat.levels.vec = NULL){
+Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
+                          cluster.vis = FALSE, method = NULL, silhouette_kmin = NULL, silhouette_kmax = NULL, ordered.cat.levels.vec = NULL){
 
   # Rename data.x object
   X <- data.x
+
+  ###
 
   # Adversarial Checks:
   ###
@@ -38,32 +43,41 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.v
   # Check 4: cluster.vis is logical type object
   Cluster_Vis_Check(cluster.vis)
 
+  ###
+
   # Var Type Vec Implementation:
   ###
   # Apply var.type.vec/ordered.cat.levels.vec to adjust feature types:
   X <- Adjust_Feature_Type(X, var.type.vec, ordered.cat.levels.vec)
+
+  ###
 
   # Configure Gower Dist Mat:
   ###
   # Apply gower.dist from StatMatch package to X (var.weights included if specified by the user)
   gower.mat <- StatMatch::gower.dist(X, var.weights = var.weight.vec)
 
+  ###
+
   # Configure Dendrogram/Silhouette Objects (Optional):
   ###
   if (cluster.vis == TRUE){
 
     ###
+    # Adversarial checks on method:
+    #   Check that method is specified correctly
+    Method_Check(method)
     # Adversarial checks on cluster.vis/silhouette_kmin/silhouette_kmax:
     #   Check that silhouette_kmin and silhouette_kmax are specified correctly
     #   Also, check that silhouette_kmin <= silhouette_kmax
-
+    K_Range_Check(silhouette_kmin, silhouette_kmax)
 
     ###
 
     # Dendrogram:
 
     # Initialize Hierarchical Clustering Object:
-    hclust_obj <- hclust(as.dist(gower.mat), method = hclust_method) ### NEED TO CREATE hclust_method input
+    hclust_obj <- hclust(as.dist(gower.mat), method = method)
     hclust_obj_size <- length(hclust_obj$order)
     # Initialize Dendrogram Object:
     #   Conditionals on size of hclust_obj to adjust dendrogram label font size:
@@ -81,7 +95,7 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.v
 
     # Create dendrogram plot output
     par(mar = c(4, 3, 3, 2)) # Adjusted margins
-    dend_plot <- plot(dend_obj, main = "Dendrogram")
+    dend.plot <- plot(dend_obj, main = "Dendrogram")
 
 
     # Silhouette Scores:
@@ -91,13 +105,18 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL, cluster.v
       mean(cluster::silhouette(cluster_assignments, dmatrix = gower.mat)[, 3]) # grab silhouette score column, compute avg
     })
 
-    silhouette_plot <- plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
+    silhouette.plot <- plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
+
+    # If cluster.vis outputs are included (TRUE):
+    return(list(gower.mat = gower.mat, dend.plot = dend.plot, silhouette.plot = silhouette.plot))
 
   }
 
   ###
+
+  # If cluster.vis outputs are excluded (FALSE):
   return(gower.mat)
-  # return(gower.mat)
+
 }
 
 

@@ -325,7 +325,27 @@ silhouette_scores <- sapply(2:10, function(k) {
 plot(2:(length(silhouette_scores) + 1), silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
 
 
+###
 
+######################
+# Full Package Tests #
+######################
+source('./R/adv_checks.R')
+source('./R/adjust_features.R')
+source('./R/gower_dist_mat.R')
+
+# Check returning just gower.mat output:
+df_main <- vroom('./Data/r_gowers_pre_df.csv', delim = ',')
+dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
+
+# Check returning just gower.mat output WITH weights specified:
+dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), var.weight.vec = c(10, 5, 5, 5, 10, 5))
+
+# Check returning all outputs (cluster.vis = TRUE):
+out1 <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), cluster.vis = TRUE, method = 'centroid', silhouette_kmin = 4, silhouette_kmax = 6)
+
+out1$dend.plot
+out1$silhouette.plot
 
 
 

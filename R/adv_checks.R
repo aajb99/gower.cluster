@@ -150,13 +150,33 @@ K_Range_Check <- function(silhouette_kmin, silhouette_kmax){
   }
 }
 
+#' Method_Check
+#'
+#' @param method
+#'
+#' @return Returns an error message if method is incompatible.
+#'
+#' @keywords internal
+#'
+Method_Check <- function(method){
 
+  # Check object data type
+  if(!is.character(method)){
 
+    stop(paste("method input must be a string (see Gower_Cluster details). Check and readjust."))
 
+  }
 
+  # Check object entry
+  if(!(method == "ward.D" | method == "ward.D2" | method == "single" |
+       method == "complete" | method == "average" | method == "mcquitty" |
+       method == "median" | method == "centroid")){
 
+    stop(paste("method input must match one of the possible agglomerative methods (see Gower_Cluster details). Check and readjust."))
 
+  }
 
+}
 
 
 
