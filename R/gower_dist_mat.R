@@ -11,6 +11,7 @@
 #'
 #' @return A matrix
 #' \item{gower.mat}{ n x n matrix representing the pairwise Gower's Distances between observations of data.x }
+#' \item{hclust.object}{ object of class hclust which describes the tree produced by the clustering process. See description of hclust (stats package) for details regarding object components }
 #' \item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower's Distances }
 #' \item{silhouette.plot}{ (Optional) silhouette plot to indicate optimal k values, or number of clusters, involving Gower's Distance Matrix of data.x }
 #' @export
@@ -103,6 +104,7 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     # If cluster.vis outputs are included (TRUE):
     output <- list(
       gower.mat = gower.mat,
+      hclust.object = hclust_obj,
       dend.plot = function() plot(dend_obj, main = "Dendrogram"),
       silhouette.plot = function() plot(silhouette.kmin:silhouette.kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
     )
@@ -117,9 +119,6 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
   return(gower.mat)
 
 }
-
-
-
 
 
 

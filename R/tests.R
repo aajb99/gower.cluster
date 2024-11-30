@@ -284,7 +284,7 @@ plot(dend_obj)
 simple_df <- as.data.frame(matrix(c(.1, .5, .2, .8, 2, 7, 3, 6, 0, 1, 1, 1, 5, 2, 2, 1), nrow = 4))
 simple_dist_mat <- Gower_Cluster(data.x = simple_df, var.type.vec = c(0, 1, 3, 1))
 # Convert to dist object, run clustering
-hclust(as.dist(simple_dist_mat), method = 'complete')
+hclust_simple_obj <- hclust(as.dist(simple_dist_mat), method = 'complete')
 # Plot HC cluster object as dendrogram
 plot(as.dendrogram(hclust(as.dist(simple_dist_mat), method = 'complete')))
 # Alter label sizes:
@@ -355,6 +355,7 @@ large_df <- as.data.frame(cbind(f1, f2))
 # Function output
 out2 <- Gower_Cluster(data.x = large_df, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 15)
 
+out2$hclust.object$order
 out2$dend.plot()
 out2$silhouette.plot()
 
