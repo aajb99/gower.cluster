@@ -267,7 +267,8 @@ Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1))
 dist_mat # From Gower_Mat Test 1
 dim(as.dist(dist_mat))
 # Convert to dist object, run clustering
-hclust_obj <- hclust(as.dist(dist_mat), method = 'complete')
+# hclust_obj <- hclust(as.dist(dist_mat), method = 'complete')
+hclust_obj <- hclust(as.dist(dist_mat), method = 'centroid')
 hclust_obj_size <- length(hclust_obj$order)
 # Plot HC cluster object as dendrogram
 plot(as.dendrogram(hclust(as.dist(dist_mat), method = 'complete')))
@@ -276,10 +277,8 @@ plot(as.dendrogram(hclust(as.dist(dist_mat), method = 'complete')))
 hclust_obj_size
 library(dendextend)
 dend_obj <- as.dendrogram(hclust_obj) %>%
-  set('labels_cex', .707)
+  set('labels_cex', 0.5)
 plot(dend_obj)
-
-10 / sqrt(900)
 
 # Test simple dataset:
 simple_df <- as.data.frame(matrix(c(.1, .5, .2, .8, 2, 7, 3, 6, 0, 1, 1, 1, 5, 2, 2, 1), nrow = 4))
@@ -344,8 +343,8 @@ dist_mat <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), 
 # Check returning all outputs (cluster.vis = TRUE):
 out1 <- Gower_Cluster(data.x = df_main, var.type.vec = c(1, 0, 0, 1, 1, 1), cluster.vis = TRUE, method = 'centroid', silhouette_kmin = 4, silhouette_kmax = 6)
 
-out1$dend.plot
-out1$silhouette.plot
+out1$dend.plot()
+out1$silhouette.plot()
 
 
 

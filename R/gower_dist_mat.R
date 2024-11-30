@@ -94,8 +94,8 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     }
 
     # Create dendrogram plot output
-    par(mar = c(4, 3, 3, 2)) # Adjusted margins
-    dend.plot <- plot(dend_obj, main = "Dendrogram")
+    # par(mar = c(4, 3, 3, 2)) # Adjusted margins
+    # dend.plot <- plot(dend_obj, main = "Dendrogram")
 
 
     # Silhouette Scores:
@@ -105,10 +105,18 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
       mean(cluster::silhouette(cluster_assignments, dmatrix = gower.mat)[, 3]) # grab silhouette score column, compute avg
     })
 
-    silhouette.plot <- plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
+    # silhouette.plot <- plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
 
     # If cluster.vis outputs are included (TRUE):
-    return(list(gower.mat = gower.mat, dend.plot = dend.plot, silhouette.plot = silhouette.plot))
+    # return(list(gower.mat = gower.mat, dend.plot = dend.plot, silhouette.plot = silhouette.plot))
+
+    output <- list(
+      gower.mat = gower.mat,
+      dend.plot = function() plot(dend_obj, main = "Dendrogram"),
+      silhouette.plot = function() plot(silhouette_kmin:silhouette_kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
+    )
+
+    return(output)
 
   }
 
