@@ -349,20 +349,50 @@ out1$silhouette.plot()
 
 ### Test large data simulation ###
 # Create data
-f1 <- sample(c(0, 1), size = 900, replace = TRUE, prob = c(.5, .5))
-f2 <- f1 + sample(rnorm(900))
+f1 <- sample(c(0, 1), size = 100, replace = TRUE, prob = c(.5, .5))
+f2 <- f1 + sample(rnorm(100))
 large_df <- as.data.frame(cbind(f1, f2))
 # Function output
-out2 <- Gower_Cluster(data.x = large_df, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 15)
+out2 <- Gower_Cluster(data.x = large_df, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
 
 out2$hclust.object$order
 out2$dend.plot()
 out2$silhouette.plot()
 
+###
 
+##########################
+# Package Examples Tests #
+##########################
 
+# Simulate data with dataframe
+feature1 <- sample(c(0, 1), size = 100, replace = TRUE, prob = c(.5, .5))
+feature2 <- feature1 + sample(rnorm(100))
+df_sim <- as.data.frame(cbind(feature1, feature2))
+# Apply Gower_Cluster function using average and complete methods
+out_avg <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 10)
+out_comp <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
+# View cluster orderings
+cat("Cluster Ordering (Avg Method): \n",
+      out_avg$hclust.object$order,
+      "\nCluster Ordering (Comp Method): \n",
+      out_avg$hclust.object$order)
+# Compare dendrograms
+out_avg$dend.plot()
+out_comp$dend.plot()
+# Compare silhouette plots
+out_avg$silhouette.plot()
+out_comp$silhouette.plot()
 
+# Load iris data
+data("iris")
+# Apply Gower_Cluster function using only numeric features, weighting Petal.Length twice as much relative to other features
+out_iris <- Gower_Cluster(data.x = iris[, 1:4], var.type.vec = c(0, 0, 0, 0), var.weight.vec = c(5, 5, 10, 5), cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
 
+# View cluster orderings, dendrogram, and silhouette plot
+out_iris$hclust.object$order
+out_iris$dend.plot()
+out_iris$silhouette.plot()
 
 # ### Test labeled index data ###
 # # Portion of actual data:
