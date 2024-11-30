@@ -84,12 +84,12 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     if (hclust_obj_size <= 200){
 
       dend_obj <- as.dendrogram(hclust_obj) |>
-        dendextend::set('labels_cex', 1.2) # Alter label sizes
+        dendextend::set('labels_cex', 0.65) # Alter label sizes
 
     } else {
 
       dend_obj <- as.dendrogram(hclust_obj) |>
-        dendextend::set('labels_cex', 10 / sqrt(hclust_obj_size)) # Alter label sizes based on hclust_obj_size
+        dendextend::set('labels_cex', 8 / sqrt(hclust_obj_size)) # Alter label sizes based on hclust_obj_size
 
     }
 
