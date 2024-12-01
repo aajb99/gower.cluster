@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Overview
 
 The `gower.cluster` R package provides a simple, easy-to-use method for preparing mixed variable data for cluster analysis by employing Gower Distance. In addition, the package offers basic exploratory tools to propel the clustering of observations forward.
@@ -41,6 +42,22 @@ For mixed variable data, i.e. when variables of different types (numerical, cate
 * Configure the silhouette score plot to help determine the optimal number of clusters (2).
 
 For more information concerning package capabilities and the development of the outputs, refer to More Background (below).
+
+
+# Installation
+
+The latest release of `gower.cluster` on github can be installed using the following code:
+`devtools::install_github("aajb99/gower.cluster")`.
+
+
+# Getting Started
+
+
+
+
+
+
+
 
 
 

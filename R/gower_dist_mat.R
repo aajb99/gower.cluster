@@ -1,4 +1,4 @@
-#' Gower_Cluster
+#' An Implementation of Gower Distance in Exploratory Cluster Analysis on data.X
 #'
 #' @param data.x n x p dataframe object (allows for mixed data types) or a matrix object (single data type).
 #' @param var.type.vec p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).
@@ -9,7 +9,7 @@
 #' @param silhouette.kmax (Optional) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.
 #' @param ordered.cat.levels.vec (Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.
 #'
-#' @return A matrix
+#' @return A list with the following components:
 #' \item{gower.mat}{ n x n matrix representing the pairwise Gower Distances between observations of data.x }
 #' \item{hclust.object}{ object of class hclust which describes the tree produced by the clustering process. See description of hclust (stats package) for details regarding object components }
 #' \item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower Distances }
