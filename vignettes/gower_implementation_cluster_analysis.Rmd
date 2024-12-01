@@ -28,7 +28,49 @@ knitr::include_graphics("images/workflow.PNG")
 
 ```
 
-*gower.cluster output includes tools for exploratory cluster analysis including a hierarchical clustering object, dendrogram, and silhouette score plot*
+*gower.cluster output includes tools for exploratory cluster analysis including a hierarchical clustering object, dendrogram, and silhouette score plot.*
+
+
+# Motivation for this package
+
+For mixed variable data, i.e. when variables of different types (numerical, categorical, logical, etc.) are observed in a study, a rigorous representation of the dissimilarity between observations via distance measures is somewhat tedious. However, as can be seen at the core of hierarchical clustering (and specifically with Agglomerative clustering processes), distance matrices are useful for partitioning data points and subsequently aggregating them into clusters, with decreasing inter-cluster distances revealing increasing levels of similarity between observations (1). As a result, the package `gower.cluster` was developed in order to accommodate the challenge of measuring the dissimilarities observed in mixed variable data, and then apply the resulting distance measures in hierarchical clustering analysis. These main objectives are achieved under the following package capabilities:
+
+* Configure a distance matrix of the observed data by applying Gower Distance—a distance metric developed to measure the dissimilarities observed in mixed variable data.
+* Compute hierarchical clustering in R using the Gower Distance matrix under a user-specified agglomerative linkage method; return the hierarchical clustering object.
+* Configure and return the dendrogram corresponding to the hierarchical clustering results to visualize clusters.
+* Configure the silhouette score plot to help determine the optimal number of clusters (2).
+
+For more information concerning package capabilities and the development of the outputs, refer to More Background (below).
+
+
+
+
+the challenge of measuring the dissimilarities observed in mixed variable data, the Gower Distance was
+developed (1). The Gower Distance utilizes the collection of mixed variables to compute an
+overall distance by manipulating a weighted sum of the variable-wise distances dijk, where i, j
+are observed points and k denotes a particular variable. The weights used are manipulated
+to represent each dijk in its needed form; as a logical, categorical (character), or continuous
+(numeric) related distance (2). While these distance measures prove useful in contrasting
+mixed variable data points, a compelling extension of Gower Distance is to implement it in
+clustering analysis involving mixed variable data. More specifically, a helpful development
+would be to design an R package that computes pairwise Gower Distances between points,
+which are then incorporated in a tool for exploratory cluster analysis to analyze the possible
+clusterings of observations of mixed variable data.
+
+
+
+Sources:
+1. https://arxiv.org/pdf/1109.2378 pg 12
+
+2.https://www.mathworks.com/help/stats/clustering.evaluation.silhouetteevaluation.html
+
+
+
+
+
+
+
+
 
 
 
