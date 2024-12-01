@@ -17,3 +17,7 @@ Imports:
     cluster,
     dendextend,
     StatMatch
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
