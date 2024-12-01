@@ -1,6 +1,6 @@
 Package: gower.cluster
 Title: An Implementation of Gower Distance in Exploratory Cluster Analysis
-Version: 0.0.0.9000
+Version: 1.1
 Authors@R: 
     person("Aaron", "Brown", , "aaron.jacob.brown@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-0853-1099"))

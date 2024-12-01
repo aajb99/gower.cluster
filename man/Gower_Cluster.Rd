@@ -4,30 +4,89 @@
 \alias{Gower_Cluster}
 \title{Gower_Cluster}
 \usage{
-Gower_Cluster(data.x, var.type.vec, var.weight.vec = NULL, dend = FALSE)
+Gower_Cluster(
+  data.x,
+  var.type.vec,
+  var.weight.vec = NULL,
+  cluster.vis = FALSE,
+  method = NULL,
+  silhouette.kmin = NULL,
+  silhouette.kmax = NULL,
+  ordered.cat.levels.vec = NULL
+)
 }
 \arguments{
 \item{data.x}{n x p dataframe object (allows for mixed data types) or a matrix object (single data type).}
 
-\item{var.type.vec}{p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as categorical ordinal variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).}
+\item{var.type.vec}{p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).}
 
-\item{var.weight.vec}{(Optional) p x 1 vector with elements indicating variable weights applied in Gower's Distance calculations. User can specify different weights for different variables by providing a numeric value for each variable contributing to the distance. Length should equal the number of variables considered in calculating distance. Entered weights are scaled to sum up to 1.}
+\item{var.weight.vec}{(Optional) p x 1 vector with elements indicating variable weights applied in Gower Distance calculations. User can specify different weights for different variables by providing a numeric value for each variable contributing to the distance. Length should equal the number of variables considered in calculating distance. Entered weights are scaled to sum up to 1.}
 
-\item{dend}{(Optional) boolean input, "TRUE" indicating dendrogram plot is a desired output, "FALSE" otherwise.}
+\item{cluster.vis}{(Optional) boolean input, "TRUE" indicating dendrogram plot and silhouette plot are a desired output, "FALSE" otherwise.}
+
+\item{method}{(Optional) the agglomerative method to be used (in conjunction with cluster.vis). This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", or "centroid".}
+
+\item{silhouette.kmin}{(Optional) numeric input used in conjunction with cluster.vis. Indicates the minimum number of clusters k to be included in the silhouette plot.}
+
+\item{silhouette.kmax}{(Optional) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.}
+
+\item{ordered.cat.levels.vec}{(Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.}
 }
 \value{
 A matrix
-\item{gower.mat}{ n x n matrix representing the pairwise Gower's Distances between observations of data.x }
-\item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower's Distances }
+\item{gower.mat}{ n x n matrix representing the pairwise Gower Distances between observations of data.x }
+\item{hclust.object}{ object of class hclust which describes the tree produced by the clustering process. See description of hclust (stats package) for details regarding object components }
+\item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower Distances }
+\item{silhouette.plot}{ (Optional) silhouette plot to indicate optimal k values, or number of clusters, involving Gower Distance Matrix of data.x }
 }
 \description{
 Gower_Cluster
 }
 \examples{
 
-##### Example 1
+### Example 1
+## Compare single and complete methods in Gower Distance Hierarchical Clustering
 
-#####################
-##### Example 2
+# Simulate data with dataframe
+feature1 <- sample(c(0, 1), size = 100, replace = TRUE, prob = c(.5, .5))
+feature2 <- feature1 + sample(rnorm(100))
+df_sim <- as.data.frame(cbind(feature1, feature2))
+
+# Apply Gower_Cluster function using average and complete methods
+out_avg <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0),
+  cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 10)
+out_comp <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0),
+  cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
+
+# View cluster orderings
+cat("Cluster Ordering (Avg Method): \n",
+    out_avg$hclust.object$order,
+    "\nCluster Ordering (Comp Method): \n",
+    out_avg$hclust.object$order)
+
+# Compare dendrograms
+out_avg$dend.plot()
+out_comp$dend.plot()
+
+# Compare silhouette plots
+out_avg$silhouette.plot()
+out_comp$silhouette.plot()
+
+
+### Example 2
+## Apply Gower_Cluster to iris data/add weights to features to increase Petal.Length contribution
+
+# Load iris data
+data("iris")
+
+# Apply Gower_Cluster using numeric features, weighting Petal.Length x2 relatively more
+out_iris <- Gower_Cluster(data.x = iris[, 1:4], var.type.vec = c(0, 0, 0, 0),
+  var.weight.vec = c(5, 5, 10, 5), cluster.vis = TRUE, method = 'complete',
+  silhouette.kmin = 2, silhouette.kmax = 10)
+
+# View cluster orderings, dendrogram, and silhouette plot
+out_iris$hclust.object$order
+out_iris$dend.plot()
+out_iris$silhouette.plot()
 
 }

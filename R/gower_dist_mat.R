@@ -19,7 +19,7 @@
 #' @examples
 #'
 #' ### Example 1
-#' ## Simulate 100 observations with a logistic and a numeric feature (see below) and compare single and complete agglomeration methods in Gower Distance Hierarchical Clustering
+#' ## Compare single and complete methods in Gower Distance Hierarchical Clustering
 #'
 #' # Simulate data with dataframe
 #' feature1 <- sample(c(0, 1), size = 100, replace = TRUE, prob = c(.5, .5))
@@ -27,8 +27,10 @@
 #' df_sim <- as.data.frame(cbind(feature1, feature2))
 #'
 #' # Apply Gower_Cluster function using average and complete methods
-#' out_avg <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 10)
-#' out_comp <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0), cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
+#' out_avg <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0),
+#'   cluster.vis = TRUE, method = 'average', silhouette.kmin = 2, silhouette.kmax = 10)
+#' out_comp <- Gower_Cluster(data.x = df_sim, var.type.vec = c(3, 0),
+#'   cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
 #'
 #' # View cluster orderings
 #' cat("Cluster Ordering (Avg Method): \n",
@@ -46,13 +48,15 @@
 #'
 #'
 #' ### Example 2
-#' ## Apply Gower_Cluster to iris data. In addition, apply weights to features to enhance the contribution of Petal.Length, which is relatively more highly correlated with Species
+#' ## Apply Gower_Cluster to iris data/add weights to features to increase Petal.Length contribution
 #'
 #' # Load iris data
 #' data("iris")
 #'
-#' # Apply Gower_Cluster function using only numeric features, weighting Petal.Length twice as much relative to other features
-#' out_iris <- Gower_Cluster(data.x = iris[, 1:4], var.type.vec = c(0, 0, 0, 0), var.weight.vec = c(5, 5, 10, 5), cluster.vis = TRUE, method = 'complete', silhouette.kmin = 2, silhouette.kmax = 10)
+#' # Apply Gower_Cluster using numeric features, weighting Petal.Length x2 relatively more
+#' out_iris <- Gower_Cluster(data.x = iris[, 1:4], var.type.vec = c(0, 0, 0, 0),
+#'   var.weight.vec = c(5, 5, 10, 5), cluster.vis = TRUE, method = 'complete',
+#'   silhouette.kmin = 2, silhouette.kmax = 10)
 #'
 #' # View cluster orderings, dendrogram, and silhouette plot
 #' out_iris$hclust.object$order

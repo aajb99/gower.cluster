@@ -4,10 +4,12 @@
 \alias{Var_Type_Check}
 \title{Var_Type_Check}
 \usage{
-Var_Type_Check(var.type.vec)
+Var_Type_Check(X, var.type.vec)
 }
 \arguments{
-\item{var.type.vec}{}
+\item{X}{n x p dataframe object (allows for mixed data types) or a matrix object (single data type)}
+
+\item{var.type.vec}{p x 1 vector with elements (values of 0-3) indicating the intended data type of each column of data.x. Mode numeric (0) will be considered as interval scaled variables; mode character or class factor (1) will be considered as categorical nominal variables; class ordered (2) will be considered as ordered categorical variables; mode logical (3) will be considered as binary asymmetric variables (view details of gower.dist() for more info).}
 }
 \value{
 Returns an error message if var.type.vec does not follow one or more of the requirements mentioned below.

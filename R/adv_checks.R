@@ -102,7 +102,7 @@ Var_Weight_Check <- function(X, var.weight.vec){
 
 #' Cluster_Vis_Check
 #'
-#' @param cluster.vis
+#' @param cluster.vis Boolean object, "TRUE" indicating dendrogram plot and silhouette plot are a desired output, "FALSE" otherwise.
 #'
 #' @return Returns an error message if cluster.vis is not a logical type object.
 #'
@@ -121,8 +121,8 @@ Cluster_Vis_Check <- function(cluster.vis){
 
 #' K_Range_Check
 #'
-#' @param silhouette_kmin
-#' @param silhouette_kmax
+#' @param silhouette_kmin Numeric value indicating the minimum k value to be included in the silhouette plot.
+#' @param silhouette_kmax Numeric value indicating the maximum k value to be included in the silhouette plot.
 #'
 #' @return Returns an error message if silhouette_kmin and/or silhouette_kmax are incompatible.
 #'
@@ -152,7 +152,7 @@ K_Range_Check <- function(silhouette_kmin, silhouette_kmax){
 
 #' Method_Check
 #'
-#' @param method
+#' @param method A string indicating the agglomerative method to be used in hierarchical clustering.
 #'
 #' @return Returns an error message if method is incompatible.
 #'
