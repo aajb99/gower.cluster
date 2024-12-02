@@ -8,8 +8,7 @@ Intended use of this package is to provide relatively simple operations to prepa
 #### Installation Instructions: 
 The gower.cluster R package can be installed from GitHub directly using the following code: `devtools::install_github("aajb99/gower.cluster")`. The following is the full link to the (public) repository: https://github.com/aajb99/gower.cluster/tree/main. 
 
-#### Remaining Parts of the Project:
-The parts of my project left for the remainder of the semester include the following: the internal Adjust_Feature_Type function (adjust_features.R) to adjust features of the data frame input object has been written and tested, yet I may add a few more tests to ensure all adversarial user cases are accounted for. Also, the function to compute the Gower Distance matrix output as well as the function to configure the dendrogram based on Gower Distances need to be written, tested, and added to gower_dist_mat.R. I also plan to create a vignette for my package. Lastly, if time permits, I need to implement another optional exploratory cluster analysis tool for the user.
+
 
 
 
