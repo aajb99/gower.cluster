@@ -1,8 +1,9 @@
 ---
-title: "An Implementation of Gower Distance in Exploratory Cluster Analysis"
+title: "Introduction to gower.cluster"
+author: "Aaron Brown"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{An Implementation of Gower Distance in Exploratory Cluster Analysis}
+  %\VignetteIndexEntry{Introduction to gower.cluster}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
