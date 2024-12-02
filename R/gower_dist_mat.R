@@ -14,6 +14,7 @@
 #' \item{hclust.object}{ object of class hclust which describes the tree produced by the clustering process. See description of hclust (stats package) for details regarding object components }
 #' \item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower Distances }
 #' \item{silhouette.plot}{ (Optional) silhouette plot to indicate optimal k values, or number of clusters, involving Gower Distance Matrix of data.x }
+#' \item{optimal.k}{ Value representing the optimal k number of clusters according to silhouette scores }
 #' @export
 #'
 #' @examples
@@ -62,7 +63,6 @@
 #' out_iris$hclust.object$order
 #' out_iris$dend.plot()
 #' out_iris$silhouette.plot()
-
 #'
 Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
                           cluster.vis = FALSE, method = NULL, silhouette.kmin = NULL, silhouette.kmax = NULL, ordered.cat.levels.vec = NULL){
@@ -140,12 +140,16 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
       mean(cluster::silhouette(cluster_assignments, dmatrix = gower.mat)[, 3]) # grab silhouette score column, compute avg
     })
 
+    # Optimal k:
+    optimal_k <- which.max(silhouette_scores)
+
     # If cluster.vis outputs are included (TRUE):
     output <- list(
       gower.mat = gower.mat,
       hclust.object = hclust_obj,
       dend.plot = function() plot(dend_obj, main = "Dendrogram"),
-      silhouette.plot = function() plot(silhouette.kmin:silhouette.kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores")
+      silhouette.plot = function() plot(silhouette.kmin:silhouette.kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores"),
+      optimal_k
     )
 
     return(output)
