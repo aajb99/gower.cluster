@@ -141,7 +141,7 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     })
 
     # Optimal k:
-    optimal_k <- which.max(silhouette_scores)
+    optimal_k <- which.max(silhouette_scores) + 1
 
     # If cluster.vis outputs are included (TRUE):
     output <- list(
