@@ -2,7 +2,7 @@
 % Please edit documentation in R/gower_dist_mat.R
 \name{Gower_Cluster}
 \alias{Gower_Cluster}
-\title{Gower_Cluster}
+\title{An Implementation of Gower Distance in Exploratory Cluster Analysis on data.X}
 \usage{
 Gower_Cluster(
   data.x,
@@ -33,14 +33,15 @@ Gower_Cluster(
 \item{ordered.cat.levels.vec}{(Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.}
 }
 \value{
-A matrix
+A list with the following components:
 \item{gower.mat}{ n x n matrix representing the pairwise Gower Distances between observations of data.x }
 \item{hclust.object}{ object of class hclust which describes the tree produced by the clustering process. See description of hclust (stats package) for details regarding object components }
 \item{dend.plot}{ (Optional) dendgrogram plot indicating potential clusters of data.x observations based on pairwise Gower Distances }
 \item{silhouette.plot}{ (Optional) silhouette plot to indicate optimal k values, or number of clusters, involving Gower Distance Matrix of data.x }
+\item{optimal.k}{ Value representing the optimal k number of clusters according to silhouette scores }
 }
 \description{
-Gower_Cluster
+An Implementation of Gower Distance in Exploratory Cluster Analysis on data.X
 }
 \examples{
 

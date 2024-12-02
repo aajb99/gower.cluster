@@ -149,7 +149,7 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
       hclust.object = hclust_obj,
       dend.plot = function() plot(dend_obj, main = "Dendrogram"),
       silhouette.plot = function() plot(silhouette.kmin:silhouette.kmax, silhouette_scores, type = "b", xlab = "k", main = "Silhouette Scores"),
-      optimal_k
+      optimal.k = optimal_k
     )
 
     return(output)
