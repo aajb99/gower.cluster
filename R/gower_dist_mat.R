@@ -123,12 +123,13 @@ Gower_Cluster <- function(data.x, var.type.vec, var.weight.vec = NULL,
     #   Conditionals on size of hclust_obj to adjust dendrogram label size:
     if (hclust_obj_size <= 200){
 
+      # Consistent label size for smaller dendrograms
       dend_obj <- as.dendrogram(hclust_obj) |>
         dendextend::set('labels_cex', 0.65) # Alter label sizes
 
     } else {
 
-      # Add null labels to dend_obj:
+      # Adjust labels based on dataset size for larger dendrograms:
       dend_obj <- as.dendrogram(hclust_obj) |>
         dendextend::set('labels_cex', 8 / sqrt(hclust_obj_size)) # Alter label sizes based on hclust_obj_size
 
