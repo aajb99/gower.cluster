@@ -24,13 +24,13 @@ Gower_Cluster(
 
 \item{cluster.vis}{(Optional) boolean input, "TRUE" indicating dendrogram plot and silhouette plot are a desired output, "FALSE" otherwise.}
 
-\item{method}{(Optional) the agglomerative method to be used (in conjunction with cluster.vis). This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", or "centroid".}
+\item{method}{(Optional, required when cluster.vis is true) the agglomerative method to be used (in conjunction with cluster.vis). This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", or "centroid".}
 
-\item{silhouette.kmin}{(Optional) numeric input used in conjunction with cluster.vis. Indicates the minimum number of clusters k to be included in the silhouette plot.}
+\item{silhouette.kmin}{(Optional, required when cluster.vis is true) numeric input used in conjunction with cluster.vis. Indicates the minimum number of clusters k to be included in the silhouette plot.}
 
-\item{silhouette.kmax}{(Optional) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.}
+\item{silhouette.kmax}{(Optional, required when cluster.vis is true) numeric input used in conjunction with cluster.vis. Indicates the maximum number of clusters k to be included in the silhouette plot.}
 
-\item{ordered.cat.levels.vec}{(Optional) vector is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.}
+\item{ordered.cat.levels.vec}{(Optional, required when at least one ordered categorical feature is specified) list is required if columns of type 2 (ordered categorical variables) are specified. Say there are e variables of type 2 specified in var.type.vec and i=1,...,e. The ith element of ordered.cat.levels.vec is a list of "ordered levels" corresponding to the ith ordered categorical variable (i.e. the number of elements in ordered.cat.levels.vec should match the number of ordered categorical variables specified in var.type.vec). This is necessary for setting features to this feature type.}
 }
 \value{
 A list with the following components:
